@@ -1,0 +1,147 @@
+{
+  "leg-press": {
+    "mode": "sf",
+    "labels": [
+      "START",
+      "FINISH"
+    ]
+  },
+  "leg-curl": {
+    "mode": "sf",
+    "labels": [
+      "START",
+      "FINISH"
+    ]
+  },
+  "chest-press": {
+    "mode": "sf",
+    "labels": [
+      "START",
+      "FINISH"
+    ]
+  },
+  "lunges": {
+    "mode": "sf",
+    "labels": [
+      "START",
+      "FINISH"
+    ]
+  },
+  "pec-deck": {
+    "mode": "sf",
+    "labels": [
+      "START",
+      "FINISH"
+    ]
+  },
+  "crunch": {
+    "mode": "sf",
+    "labels": [
+      "START",
+      "FINISH"
+    ]
+  },
+  "pull-through-rdl": {
+    "mode": "sf",
+    "labels": [
+      "START",
+      "FINISH"
+    ]
+  },
+  "seated-row": {
+    "mode": "sf",
+    "labels": [
+      "START",
+      "FINISH"
+    ]
+  },
+  "lat-pulldown": {
+    "mode": "sf",
+    "labels": [
+      "START",
+      "FINISH"
+    ]
+  },
+  "hip-thrust": {
+    "mode": "sf",
+    "labels": [
+      "START",
+      "FINISH"
+    ]
+  },
+  "face-pulls": {
+    "mode": "sf",
+    "labels": [
+      "START",
+      "FINISH"
+    ]
+  },
+  "farmer-carry": {
+    "mode": "single",
+    "labels": [
+      "Demo"
+    ]
+  },
+  "hack-squat": {
+    "mode": "sf",
+    "labels": [
+      "START",
+      "FINISH"
+    ]
+  },
+  "shoulder-press": {
+    "mode": "sf",
+    "labels": [
+      "START",
+      "FINISH"
+    ]
+  },
+  "leg-extension": {
+    "mode": "sf",
+    "labels": [
+      "START",
+      "FINISH"
+    ]
+  },
+  "single-arm-row": {
+    "mode": "sf",
+    "labels": [
+      "START",
+      "FINISH"
+    ]
+  },
+  "pushdown-curl": {
+    "mode": "dual",
+    "labels": [
+      "Pushdown",
+      "Curl"
+    ]
+  },
+  "knee-raise": {
+    "mode": "sf",
+    "labels": [
+      "START",
+      "FINISH"
+    ]
+  },
+  "fin-bike-rower": {
+    "mode": "dual",
+    "labels": [
+      "Bike",
+      "Rower"
+    ]
+  },
+  "fin-incline-ski": {
+    "mode": "single",
+    "labels": [
+      "Demo"
+    ]
+  },
+  "fin-circuit": {
+    "mode": "sf",
+    "labels": [
+      "START",
+      "FINISH"
+    ]
+  }
+}

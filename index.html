@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Rugby Cut" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512.png" />
+  <title>Rugby Cut — Glenn's Recomp</title>
+  <link rel="stylesheet" href="styles.css?v=10" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div id="app" class="phone-shell">
+    <!-- Main header (hidden in session) -->
+    <header class="app-header" id="mainHeader">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" width="28" height="28" fill="none">
+            <circle cx="16" cy="16" r="14" stroke="#F5C518" stroke-width="2.5"/>
+            <path d="M10 18l4 4 8-10" stroke="#F5C518" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div>
+          <h1 class="brand-name">Rugby Cut</h1>
+          <p class="brand-sub" id="brandSub">Glenn · Chabal</p>
+        </div>
+      </div>
+      <button type="button" class="icon-btn" id="calendarBtn" title="Calendar" aria-label="Open workout calendar">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>
+        </svg>
+      </button>
+    </header>
+
+    <!-- Views -->
+    <main class="views" id="views">
+      <!-- WORKOUT -->
+      <section class="view active" id="view-workout" data-view="workout">
+        <div class="card plan-card">
+          <div class="plan-top">
+            <span class="badge badge-yellow">ACTIVE PLAN</span>
+            <span class="meta-pill" id="planMeta">3× / week · 60 min</span>
+          </div>
+          <h2 class="plan-title" id="planTitle">Rugby Recomp</h2>
+          <p class="plan-goal" id="planGoal">110 kg → denser rugby body · ideally ~90 kg</p>
+          <div class="plan-chips" id="planChips">
+            <span class="chip">Gym · machines</span>
+            <span class="chip">~7:00 AM</span>
+            <span class="chip">Before work</span>
+          </div>
+          <button type="button" class="btn-profiles" id="openProfilesBtn">
+            <span>Profiles</span>
+            <strong id="profileChip">Chabal</strong>
+          </button>
+        </div>
+
+        <div class="card coach-card">
+          <div class="coach-head">
+            <span class="coach-dot"></span>
+            <h3>Coach note</h3>
+          </div>
+          <p id="coachNote">Pre-gym: whey + almond milk only — save the real breakfast for after. Hit protein (~180 g) every day.</p>
+        </div>
+
+        <div class="section-head">
+          <h3>Your next workout</h3>
+          <div class="day-picker" id="dayPicker">
+            <button type="button" class="day-btn" data-day="A">A</button>
+            <button type="button" class="day-btn" data-day="B">B</button>
+            <button type="button" class="day-btn" data-day="C">C</button>
+          </div>
+        </div>
+
+        <div class="card workout-card" id="nextWorkoutCard">
+          <!-- filled by JS -->
+        </div>
+
+        <button type="button" class="btn-start" id="startWorkoutBtn">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          Start workout
+        </button>
+      </section>
+
+      <!-- DIET -->
+      <section class="view" id="view-diet" data-view="diet">
+        <div class="card target-card">
+          <span class="badge badge-yellow" id="proteinBadge">DAILY TARGET</span>
+          <h2 id="proteinTarget">~180 g protein</h2>
+          <p class="muted" id="proteinNote">Cut toward ~90 kg · keep lifts strong</p>
+        </div>
+
+        <div class="card callout-card">
+          <strong id="preGymTitle">Pre-gym rule</strong>
+          <p id="preGymBody">Workdays ~7 AM: whey shake with almond milk — <em>not</em> a full breakfast. Real food after the session.</p>
+        </div>
+
+        <h3 class="section-label">Meal map</h3>
+        <div class="meal-list" id="mealList"></div>
+
+        <h3 class="section-label">Sunday batch cook</h3>
+        <div class="card checklist-card" id="batchList"></div>
+      </section>
+
+      <!-- PLANS -->
+      <section class="view" id="view-plans" data-view="plans">
+        <p class="plans-intro">A / B / C rotate. Tap a day to preview the full session.</p>
+        <div class="plan-grid" id="planGrid"></div>
+        <div class="card preview-card hidden" id="planPreview">
+          <button type="button" class="link-back" id="closePreview">← Back</button>
+          <div id="planPreviewBody"></div>
+        </div>
+      </section>
+
+      <!-- PROGRESS -->
+      <section class="view" id="view-progress" data-view="progress">
+        <h3 class="section-label">Calories burned <span class="section-label-sub">(est.)</span></h3>
+        <div class="card kcal-summary-card" id="kcalSummary">
+          <p class="empty">No finished sessions yet.</p>
+        </div>
+
+        <h3 class="section-label">Workout calendar</h3>
+        <div class="card cal-card" id="calendarCard">
+          <div class="cal-head">
+            <h3 id="calMonthLabel">Month</h3>
+            <div class="cal-nav">
+              <button type="button" id="calPrev" aria-label="Previous month">‹</button>
+              <button type="button" id="calNext" aria-label="Next month">›</button>
+            </div>
+          </div>
+          <div class="cal-weekdays" aria-hidden="true">
+            <span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span>
+          </div>
+          <div class="cal-grid" id="calGrid"></div>
+          <div class="cal-detail" id="calDetail">
+            <p class="empty">Tap a day to see session details.</p>
+          </div>
+        </div>
+
+        <div class="card weight-form-card">
+          <h3>Log body weight</h3>
+          <form id="weightForm" class="weight-form">
+            <input type="number" id="weightInput" step="0.1" min="50" max="200" placeholder="kg" required />
+            <button type="submit" class="btn-primary">Add</button>
+          </form>
+        </div>
+
+        <h3 class="section-label">Weight history</h3>
+        <div class="card log-card" id="weightLog">
+          <p class="empty">No entries yet. Log your first weigh-in.</p>
+        </div>
+
+        <h3 class="section-label">Exercise progress</h3>
+        <div class="scope-toggle" id="progressScopeToggle" role="group" aria-label="Progress scope">
+          <button type="button" class="scope-btn active" data-scope="current">This profile</button>
+          <button type="button" class="scope-btn" data-scope="all">All profiles</button>
+        </div>
+        <div class="card ex-progress-card">
+          <select id="exProgressSelect" aria-label="Choose exercise"></select>
+          <div class="sparkline-wrap" id="exSparkline" hidden></div>
+          <div id="exProgressList">
+            <p class="empty">Complete a session with weights to see history.</p>
+          </div>
+        </div>
+
+        <h3 class="section-label">Recent workouts</h3>
+        <div class="card log-card" id="workoutLog">
+          <p class="empty">No workouts logged yet.</p>
+        </div>
+      </section>
+    </main>
+
+    <!-- Bottom nav -->
+    <nav class="bottom-nav" id="bottomNav" aria-label="Main">
+      <button type="button" class="nav-item active" data-nav="workout">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M6.5 6.5l11 11M4 12h2M18 12h2M12 4v2M12 18v2M7.5 16.5L5 19M16.5 7.5L19 5"/></svg>
+        <span>Workout</span>
+      </button>
+      <button type="button" class="nav-item" data-nav="diet">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v8M8 6c0 4 4 6 4 10a4 4 0 01-8 0c0-4 4-6 4-10zM16 4c0 3 3 5 3 8a3 3 0 01-6 0c0-3 3-5 3-8z"/></svg>
+        <span>Diet</span>
+      </button>
+      <button type="button" class="nav-item" data-nav="plans">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+        <span>Plans</span>
+      </button>
+      <button type="button" class="nav-item" data-nav="progress">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V5M4 19h16M8 15l3-4 3 2 4-6"/></svg>
+        <span>Progress</span>
+      </button>
+    </nav>
+
+    <!-- Session overlay -->
+    <div class="session hidden" id="sessionView" aria-hidden="true">
+      <header class="session-header">
+        <button type="button" class="icon-btn" id="exitSession" aria-label="Exit">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <div class="session-title-wrap">
+          <h2 id="sessionTitle">Day A</h2>
+          <p id="sessionSubtitle">Legs + push</p>
+        </div>
+        <button type="button" class="rest-chip" id="restBtn">Rest 90s</button>
+      </header>
+      <div class="rest-banner hidden" id="restBanner">
+        <span id="restLabel">Rest</span>
+        <strong id="restCountdown">1:30</strong>
+        <button type="button" class="link-sm" id="skipRest">Skip</button>
+      </div>
+      <div class="session-body" id="sessionBody"></div>
+      <footer class="session-footer">
+        <div class="session-save-status" id="sessionSaveStatus">0/0 exercises saved</div>
+        <div class="kcal-row" id="kcalRow">
+          <div class="kcal-est">
+            <strong id="kcalEstimate">~0 kcal (est.)</strong>
+            <span id="kcalBasis" class="kcal-basis">estimate</span>
+          </div>
+          <label class="kcal-manual">
+            <span>Your kcal</span>
+            <input type="number" id="kcalManualInput" inputmode="numeric" min="0" max="4999" step="1" placeholder="auto" aria-label="Manual calories override (leave blank to use estimate)" />
+          </label>
+          <button type="button" class="kcal-clear" id="kcalClearBtn" aria-label="Clear manual calories">✕</button>
+        </div>
+        <button type="button" class="btn-finish" id="finishWorkoutBtn">Finish workout</button>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Form guide bottom sheet -->
+  <div class="form-backdrop hidden" id="formBackdrop" aria-hidden="true"></div>
+  <div class="form-sheet hidden" id="formSheet" role="dialog" aria-modal="true" aria-labelledby="formSheetTitle" aria-hidden="true">
+    <div class="form-sheet-handle" aria-hidden="true"></div>
+    <header class="form-sheet-head">
+      <h2 id="formSheetTitle">Form</h2>
+      <button type="button" class="icon-btn" id="formSheetClose" aria-label="Close form guide">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M6 6l12 12M18 6L6 18"/>
+        </svg>
+      </button>
+    </header>
+    <div class="form-sheet-body">
+      <div id="formSheetDiagram" class="form-diagram-wrap"></div>
+      <div class="form-muscles" id="formSheetMuscles"></div>
+      <h3 class="form-sec-title">Form cues</h3>
+      <ul class="form-cues" id="formSheetCues"></ul>
+      <h3 class="form-sec-title form-sec-warn">Common mistakes</h3>
+      <ul class="form-mistakes" id="formSheetMistakes"></ul>
+      <div class="form-breath">
+        <span class="form-breath-label">Breathing / tempo</span>
+        <p id="formSheetBreath"></p>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Profile picker -->
+  <div class="profile-backdrop hidden" id="profileBackdrop" aria-hidden="true"></div>
+  <div class="profile-sheet hidden" id="profileSheet" role="dialog" aria-modal="true" aria-labelledby="profileSheetTitle" aria-hidden="true">
+    <div class="form-sheet-handle" aria-hidden="true"></div>
+    <header class="form-sheet-head">
+      <h2 id="profileSheetTitle">Athlete profiles</h2>
+      <button type="button" class="icon-btn" id="profileSheetClose" aria-label="Close profiles">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M6 6l12 12M18 6L6 18"/>
+        </svg>
+      </button>
+    </header>
+    <div class="profile-sheet-body" id="profileSheetBody"></div>
+  </div>
+
+  <script src="profiles.js"></script>
+  <script src="form-guides.js"></script>
+  <script src="app.js?v=10"></script>
+</body>
+</html>
